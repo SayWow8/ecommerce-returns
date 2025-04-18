@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Return {
+  id            String   @id @default(uuid())
+  event         String   // Tipo di evento (Reso, Cambio, etc.)
+  orderNumber   String   // SW#xxxxx
+  confirmDate   DateTime
+  customerName  String
+  skuList       String[] // Array di SKU
+  status        String   @default("IN_ATTESA")
+  reason        String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+} 
